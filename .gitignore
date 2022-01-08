@@ -1,0 +1,6 @@
+!.gitignore
+Debug/
+x64/
+/pzhelper/Debug/
+/pzhelper/x64/
+/.vs
