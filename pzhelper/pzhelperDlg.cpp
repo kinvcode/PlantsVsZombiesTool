@@ -29,6 +29,8 @@ void CpzhelperDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SUN_NUMBER, m_sun_number);
 	DDX_Control(pDX, IDC_sun_lock, m_sun_lock);
 	DDX_Control(pDX, IDC_SUN_UPDATE, m_ctr_sun_modify);
+	DDX_Control(pDX, IDC_CHECK_COOL_DOWN, m_check_plants_cd);
+	DDX_Control(pDX, IDC_DUNGEON_STATUS, m_dungeon_status);
 }
 
 // 消息映射
@@ -37,6 +39,7 @@ BEGIN_MESSAGE_MAP(CpzhelperDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_SUN_UPDATE, &CpzhelperDlg::OnBnClickedSunUpdate)
 	ON_BN_CLICKED(IDC_sun_lock, &CpzhelperDlg::OnBnClickedsunlock)
+	ON_BN_CLICKED(IDC_CHECK_COOL_DOWN, &CpzhelperDlg::OnBnClickedCheckCoolDown)
 END_MESSAGE_MAP()
 
 
@@ -53,11 +56,16 @@ BOOL CpzhelperDlg::OnInitDialog()
 
 	
 	// TODO: 在此添加额外的初始化代码
-	/* [ 初 始 化 开 始 ] */
-	// 创建线程监控游戏运行状态
-	HANDLE thread = CreateThread(NULL, 0, ThreadProc, this, 0, NULL);
+	/*========初始化开始====*/
+	// 监控游戏运行状态、关卡状态
+	HANDLE run_thread = CreateThread(NULL, 0, GameIsRuning, this, 0, NULL);
+	// 阳光锁定、植物无冷却
+	HANDLE fast_thread = CreateThread(NULL, 0, FastScan, this, 0, NULL);
+	// 阳光默认值
 	m_sun_number.SetWindowTextW(L"50");
-	/* [ 初 始 化 结 束 ] */
+
+
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -145,3 +153,9 @@ void CpzhelperDlg::OnBnClickedsunlock()
 	}
 }
 
+
+
+void CpzhelperDlg::OnBnClickedCheckCoolDown()
+{
+	m_plants_cool_down = m_check_plants_cd.GetCheck();
+}

@@ -30,6 +30,7 @@ public:
 	int m_game_pid; // 游戏PID
 	int m_in_dungeon; // 是否在关卡中
 	BOOL m_sun_locked; // 阳光锁定状态
+	BOOL m_plants_cool_down; // 植物冷却
 	HANDLE m_game_handle; // 游戏进程句柄
 	DWORD m_base_address; // 入口地址
 
@@ -39,4 +40,7 @@ public:
 	CEdit m_sun_number; // 阳光数值控件
 	CButton m_ctr_sun_modify; //修改阳光按钮控件
 	CButton m_sun_lock; // 锁定阳光控件
+	afx_msg void OnBnClickedCheckCoolDown();
+	CButton m_check_plants_cd;
+	CStatic m_dungeon_status;
 };

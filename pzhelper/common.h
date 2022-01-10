@@ -5,6 +5,16 @@
 
 void isInDungeon(CpzhelperDlg* object);
 
+char* wchar2char(WCHAR WStr[MAX_PATH])
+{
+	size_t len = wcslen(WStr) + 1;
+	size_t converted = 0;
+	char* CStr;
+	CStr = (char*)malloc(len * sizeof(char));
+	wcstombs_s(&converted, CStr, len, WStr, _TRUNCATE);
+	return CStr;
+}
+
 // 根据进程名，获取进程id
 int getProcessIdByName(CString target)
 {
@@ -39,7 +49,7 @@ BOOL readMemery(HANDLE handle, DWORD address, DWORD& value)
 }
 
 // 检测游戏运行状态线程
-DWORD WINAPI ThreadProc(LPVOID lpParameter)
+DWORD WINAPI GameIsRuning(LPVOID lpParameter)
 {
 	CpzhelperDlg* object = (CpzhelperDlg*)lpParameter;
 
@@ -84,12 +94,12 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 			else {
 				isInDungeon(object);
 			}
-
 		}
 		else {
 			object->m_game_pid = 0;
 			object->m_status_int = 0;
 			object->m_game_status.SetWindowTextW(L"未运行");
+			object->m_in_dungeon = FALSE;
 		}
 		Sleep(1500);
 	}
@@ -97,36 +107,74 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 }
 
 // 修改阳光
-BOOL sunUpdate(CpzhelperDlg* object,int number)
+BOOL sunUpdate(CpzhelperDlg* object, int number)
 {
 	DWORD addr, value;
 	addr = object->m_base_address;
 	readMemery(object->m_game_handle, addr + 0x2A9EC0, value);
 	readMemery(object->m_game_handle, value + 0x768, value);
-	return WriteProcessMemory(object->m_game_handle, (LPVOID)(value+0x5560), &number, 4, NULL);
+	return WriteProcessMemory(object->m_game_handle, (LPVOID)(value + 0x5560), &number, 4, NULL);
 }
 
 // 检测是否在关卡之中
 void isInDungeon(CpzhelperDlg* object)
 {
-	DWORD addr, value;
-	addr = object->m_base_address;
-	readMemery(object->m_game_handle, addr + 0x2A9EC0, value);
+	DWORD moduleBase, value;
+	moduleBase = object->m_base_address;
+	readMemery(object->m_game_handle, moduleBase + 0x2A9EC0, value);
 	readMemery(object->m_game_handle, value + 0x768, value);
 	if (value != 0)
 	{
+		DWORD commonAddress = value, coolAddress = value;
 		// 更新游戏中的状态
-		object->m_in_dungeon = true;
-		// 锁定阳光
-		if (object->m_sun_locked) 
+		object->m_in_dungeon = TRUE;
+		object->m_dungeon_status.SetWindowTextW(L"是");
+	}
+	else
+	{
+		object->m_in_dungeon = FALSE;
+		object->m_dungeon_status.SetWindowTextW(L"否");
+	}
+}
+
+DWORD WINAPI FastScan(LPVOID lpParameter)
+{
+	CpzhelperDlg* object = (CpzhelperDlg*)lpParameter;
+
+	while (1)
+	{
+		if (object->m_in_dungeon == TRUE)
 		{
-			CString numeric;
-			object->m_sun_number.GetWindowTextW(numeric);
-			int number = _ttoi(numeric);
-			if (number > 0 && number <= 999999)
+			DWORD moduleBase, value;
+			moduleBase = object->m_base_address;
+			readMemery(object->m_game_handle, moduleBase + 0x2A9EC0, value);
+			readMemery(object->m_game_handle, value + 0x768, value);
+			DWORD commonAddress = value, coolAddress = value;
+
+			// 锁定阳光
+			if (object->m_sun_locked)
 			{
-				WriteProcessMemory(object->m_game_handle, (LPVOID)(value + 0x5560), &number, 4, NULL);
+				CString numeric;
+				object->m_sun_number.GetWindowTextW(numeric);
+				int number = _ttoi(numeric);
+				if (number > 0 && number <= 999999)
+				{
+					WriteProcessMemory(object->m_game_handle, (LPVOID)(commonAddress + 0x5560), &number, 4, NULL);
+				}
+			}
+			// 无冷却
+			readMemery(object->m_game_handle, coolAddress + 0x144, coolAddress);
+			if (object->m_plants_cool_down)
+			{
+				byte coolStatus = 1;
+				coolAddress = coolAddress + 0x70;
+				for (int i = 0; i < 5; i++)
+				{
+					WriteProcessMemory(object->m_game_handle, (LPVOID)(coolAddress + i * 0x50), &coolStatus, 1, NULL);
+				}
 			}
 		}
+		Sleep(500);
 	}
+	return 0;
 }
