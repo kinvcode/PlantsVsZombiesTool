@@ -62,7 +62,7 @@
     <Image Include="res\pzhelper.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="C:\Users\Administrator\Pictures\icon\sunflower.ico">
+    <Image Include="res\sunflower.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
