@@ -12,6 +12,52 @@
 #define IDC_CHECK_COOL_DOWN             1040
 #define IDC_GAME_STATUS2                1041
 #define IDC_DUNGEON_STATUS              1041
+#define IDC_BUTTON1                     1043
+#define IDC_COMBO1                      1046
+#define IDC_COMBO2                      1047
+#define IDC_COMBO3                      1048
+#define IDC_COMBO4                      1049
+#define IDC_COMBO5                      1050
+#define IDC_COMBO6                      1051
+#define IDC_COMBO7                      1052
+#define IDC_COMBO8                      1053
+#define IDC_COMBO9                      1054
+#define IDC_COMBO10                     1055
+#define IDC_COMBO11                     1056
+#define IDC_COMBO12                     1057
+#define IDC_COMBO13                     1058
+#define IDC_COMBO14                     1059
+#define IDC_COMBO15                     1060
+#define IDC_COMBO16                     1061
+#define IDC_COMBO17                     1062
+#define IDC_COMBO18                     1063
+#define IDC_COMBO19                     1064
+#define IDC_COMBO20                     1065
+#define IDC_COMBO21                     1066
+#define IDC_COMBO22                     1067
+#define IDC_COMBO23                     1068
+#define IDC_COMBO24                     1069
+#define IDC_COMBO25                     1070
+#define IDC_COMBO26                     1071
+#define IDC_COMBO27                     1072
+#define IDC_COMBO28                     1073
+#define IDC_COMBO29                     1074
+#define IDC_COMBO30                     1075
+#define IDC_COMBO31                     1076
+#define IDC_COMBO32                     1077
+#define IDC_COMBO33                     1078
+#define IDC_COMBO34                     1079
+#define IDC_COMBO35                     1080
+#define IDC_COMBO36                     1081
+#define IDC_COMBO37                     1082
+#define IDC_COMBO38                     1083
+#define IDC_COMBO39                     1084
+#define IDC_COMBO40                     1085
+#define IDC_COMBO41                     1086
+#define IDC_COMBO42                     1087
+#define IDC_COMBO43                     1088
+#define IDC_COMBO44                     1089
+#define IDC_COMBO45                     1090
 
 // Next default values for new objects
 // 
@@ -19,7 +65,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        137
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1043
+#define _APS_NEXT_CONTROL_VALUE         1047
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

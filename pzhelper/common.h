@@ -111,9 +111,9 @@ BOOL sunUpdate(CpzhelperDlg* object, int number)
 {
 	DWORD addr, value;
 	addr = object->m_base_address;
-	readMemery(object->m_game_handle, addr + 0x2A9EC0, value);
-	readMemery(object->m_game_handle, value + 0x768, value);
-	return WriteProcessMemory(object->m_game_handle, (LPVOID)(value + 0x5560), &number, 4, NULL);
+	readMemery(object->m_game_handle, addr + 0x3794F8, value);
+	readMemery(object->m_game_handle, value + 0x868, value);
+	return WriteProcessMemory(object->m_game_handle, (LPVOID)(value + 0x5578), &number, 4, NULL);
 }
 
 // 检测是否在关卡之中
@@ -121,8 +121,8 @@ void isInDungeon(CpzhelperDlg* object)
 {
 	DWORD moduleBase, value;
 	moduleBase = object->m_base_address;
-	readMemery(object->m_game_handle, moduleBase + 0x2A9EC0, value);
-	readMemery(object->m_game_handle, value + 0x768, value);
+	readMemery(object->m_game_handle, moduleBase + 0x3794F8, value);
+	readMemery(object->m_game_handle, value + 0x868, value);
 	if (value != 0)
 	{
 		DWORD commonAddress = value, coolAddress = value;
@@ -147,9 +147,15 @@ DWORD WINAPI FastScan(LPVOID lpParameter)
 		{
 			DWORD moduleBase, value;
 			moduleBase = object->m_base_address;
-			readMemery(object->m_game_handle, moduleBase + 0x2A9EC0, value);
-			readMemery(object->m_game_handle, value + 0x768, value);
-			DWORD commonAddress = value, coolAddress = value;
+			readMemery(object->m_game_handle, moduleBase + 0x3794F8, value);
+			readMemery(object->m_game_handle, value + 0x868, value);
+			DWORD commonAddress = value, coolAddress;
+
+			readMemery(object->m_game_handle, moduleBase + 0xA4274, coolAddress);
+			readMemery(object->m_game_handle, coolAddress + 0x8, coolAddress);
+			readMemery(object->m_game_handle, coolAddress + 0x2C, coolAddress);
+			readMemery(object->m_game_handle, coolAddress + 0x0, coolAddress);
+			readMemery(object->m_game_handle, coolAddress + 0x158, coolAddress);
 
 			// 锁定阳光
 			if (object->m_sun_locked)
@@ -159,16 +165,15 @@ DWORD WINAPI FastScan(LPVOID lpParameter)
 				int number = _ttoi(numeric);
 				if (number > 0 && number <= 999999)
 				{
-					WriteProcessMemory(object->m_game_handle, (LPVOID)(commonAddress + 0x5560), &number, 4, NULL);
+					WriteProcessMemory(object->m_game_handle, (LPVOID)(commonAddress + 0x5578), &number, 4, NULL);
 				}
 			}
 			// 无冷却
-			readMemery(object->m_game_handle, coolAddress + 0x144, coolAddress);
 			if (object->m_plants_cool_down)
 			{
 				byte coolStatus = 1;
 				coolAddress = coolAddress + 0x70;
-				for (int i = 0; i < 5; i++)
+				for (int i = 0; i < 8; i++)
 				{
 					WriteProcessMemory(object->m_game_handle, (LPVOID)(coolAddress + i * 0x50), &coolStatus, 1, NULL);
 				}
