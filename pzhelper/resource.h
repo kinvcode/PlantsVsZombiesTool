@@ -58,6 +58,26 @@
 #define IDC_COMBO43                     1088
 #define IDC_COMBO44                     1089
 #define IDC_COMBO45                     1090
+#define IDC_CHECK1                      1091
+#define IDC_EDIT1                       1092
+#define IDC_BUTTON2                     1093
+#define IDC_CHECK2                      1094
+#define IDC_CHECK3                      1095
+#define IDC_COMBO47                     1097
+#define IDC_COMBO48                     1098
+#define IDC_COMBO49                     1099
+#define IDC_COMBO50                     1100
+#define IDC_COMBO51                     1101
+#define IDC_COMBO52                     1102
+#define IDC_COMBO53                     1103
+#define IDC_COMBO54                     1104
+#define IDC_COMBO55                     1105
+#define IDC_COMBO56                     1106
+#define IDC_BUTTON3                     1107
+#define IDC_COMBO57                     1108
+#define IDC_BUTTON4                     1109
+#define IDC_COMBO58                     1110
+#define IDC_COMBO59                     1111
 
 // Next default values for new objects
 // 
@@ -65,7 +85,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        137
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1047
+#define _APS_NEXT_CONTROL_VALUE         1110
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

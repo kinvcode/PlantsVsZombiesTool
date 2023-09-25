@@ -60,7 +60,10 @@ public:
 	CComboBox Plant_ctr_24;
 	CComboBox Plant_ctr_25;
 
+	// 种植植物
 	void growplant(byte x, byte y, byte id);
+	// 种植僵尸
+	void growpZombie(byte x, byte y, byte id);
 	CComboBox Plant_ctr_31;
 	CComboBox Plant_ctr_32;
 	CComboBox Plant_ctr_33;
@@ -91,4 +94,16 @@ public:
 	CComboBox Plant_ctr_83;
 	CComboBox Plant_ctr_84;
 	CComboBox Plant_ctr_85;
+	afx_msg void OnBnClickedCheck1();
+	CButton m_fire_seed;
+	afx_msg void OnBnClickedButton2();
+	CEdit m_gold_number;
+	afx_msg void OnBnClickedCheck2();
+	CButton m_super_speed;
+	afx_msg void OnBnClickedCheck3();
+	CButton m_auto_gather_sun;
+	afx_msg void OnBnClickedButton4();
+	CComboBox m_zombie_x;
+	CComboBox m_zombie_y;
+	CComboBox m_zombie_id;
 };

@@ -23,6 +23,11 @@ CpzhelperDlg::CpzhelperDlg(CWnd* pParent) : CDialogEx(IDD_PZHELPER_DIALOG, pPare
 	m_in_dungeon = false;
 }
 
+std::vector<byte> makeByteArray(std::vector<byte> data)
+{
+	return data;
+}
+
 void CpzhelperDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
@@ -77,6 +82,13 @@ void CpzhelperDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO43, Plant_ctr_83);
 	DDX_Control(pDX, IDC_COMBO44, Plant_ctr_84);
 	DDX_Control(pDX, IDC_COMBO45, Plant_ctr_85);
+	DDX_Control(pDX, IDC_CHECK1, m_fire_seed);
+	DDX_Control(pDX, IDC_EDIT1, m_gold_number);
+	DDX_Control(pDX, IDC_CHECK2, m_super_speed);
+	DDX_Control(pDX, IDC_CHECK3, m_auto_gather_sun);
+	DDX_Control(pDX, IDC_COMBO57, m_zombie_x);
+	DDX_Control(pDX, IDC_COMBO58, m_zombie_y);
+	DDX_Control(pDX, IDC_COMBO59, m_zombie_id);
 }
 
 // 消息映射
@@ -87,6 +99,11 @@ BEGIN_MESSAGE_MAP(CpzhelperDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_sun_lock, &CpzhelperDlg::OnBnClickedsunlock)
 	ON_BN_CLICKED(IDC_CHECK_COOL_DOWN, &CpzhelperDlg::OnBnClickedCheckCoolDown)
 	ON_BN_CLICKED(IDC_BUTTON1, &CpzhelperDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_CHECK1, &CpzhelperDlg::OnBnClickedCheck1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CpzhelperDlg::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_CHECK2, &CpzhelperDlg::OnBnClickedCheck2)
+	ON_BN_CLICKED(IDC_CHECK3, &CpzhelperDlg::OnBnClickedCheck3)
+	ON_BN_CLICKED(IDC_BUTTON4, &CpzhelperDlg::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
 
@@ -101,7 +118,7 @@ BOOL CpzhelperDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
-	
+
 	// TODO: 在此添加额外的初始化代码
 	/*========初始化开始====*/
 	// 监控游戏运行状态、关卡状态
@@ -167,13 +184,57 @@ BOOL CpzhelperDlg::OnInitDialog()
 	plantsBox[44] = &Plant_ctr_85;
 
 
-	for (int i = 0; i < 45; i++) 
+	for (int i = 0; i < 45; i++)
 	{
 		plantsBox[i]->InsertString(0, L"豌豆射手");
 		plantsBox[i]->InsertString(1, L"向日葵");
 		plantsBox[i]->InsertString(2, L"樱桃炸弹");
 		plantsBox[i]->InsertString(3, L"坚果");
-		if (i < 5) 
+		plantsBox[i]->InsertString(4, L"土豆地雷");
+		plantsBox[i]->InsertString(5, L"寒冰射手");
+		plantsBox[i]->InsertString(6, L"大嘴花");
+		plantsBox[i]->InsertString(7, L"双重射手");
+		plantsBox[i]->InsertString(8, L"小喷菇");
+		plantsBox[i]->InsertString(9, L"阳光菇");
+		plantsBox[i]->InsertString(10, L"大喷菇");
+		plantsBox[i]->InsertString(11, L"咬咬碑");
+		plantsBox[i]->InsertString(12, L"迷惑菇");
+		plantsBox[i]->InsertString(13, L"胆小菇");
+		plantsBox[i]->InsertString(14, L"冰川菇");
+		plantsBox[i]->InsertString(15, L"末日菇");
+		plantsBox[i]->InsertString(16, L"莲叶");
+		plantsBox[i]->InsertString(17, L"窝瓜");
+		plantsBox[i]->InsertString(18, L"三重射手");
+		plantsBox[i]->InsertString(19, L"缠绕水草");
+		plantsBox[i]->InsertString(20, L"火爆辣椒");
+		plantsBox[i]->InsertString(21, L"地刺");
+		plantsBox[i]->InsertString(22, L"火炬树桩");
+		plantsBox[i]->InsertString(23, L"高坚果");
+		plantsBox[i]->InsertString(24, L"水兵菇");
+		plantsBox[i]->InsertString(25, L"路灯花");
+		plantsBox[i]->InsertString(26, L"仙人掌");
+		plantsBox[i]->InsertString(27, L"三叶草");
+		plantsBox[i]->InsertString(28, L"双向射手");
+		plantsBox[i]->InsertString(29, L"星星果");
+		plantsBox[i]->InsertString(30, L"南瓜头");
+		plantsBox[i]->InsertString(31, L"磁力菇");
+		plantsBox[i]->InsertString(32, L"卷心菜投手");
+		plantsBox[i]->InsertString(33, L"花盆");
+		plantsBox[i]->InsertString(34, L"玉米投手");
+		plantsBox[i]->InsertString(35, L"咖啡豆");
+		plantsBox[i]->InsertString(36, L"大蒜");
+		plantsBox[i]->InsertString(37, L"萝卜伞");
+		plantsBox[i]->InsertString(38, L"金盏花");
+		plantsBox[i]->InsertString(39, L"西瓜投手");
+		plantsBox[i]->InsertString(40, L"机枪射手");
+		plantsBox[i]->InsertString(41, L"双胞向日葵");
+		plantsBox[i]->InsertString(42, L"多嘴小蘑菇");
+		plantsBox[i]->InsertString(43, L"猫尾草");
+		plantsBox[i]->InsertString(44, L"冰西瓜");
+		plantsBox[i]->InsertString(45, L"吸金菇");
+		plantsBox[i]->InsertString(46, L"钢地刺");
+		plantsBox[i]->InsertString(47, L"玉米加农炮");
+		if (i < 5)
 		{
 			plantsBox[i]->SetCurSel(1);
 		}
@@ -181,6 +242,50 @@ BOOL CpzhelperDlg::OnInitDialog()
 			plantsBox[i]->SetCurSel(0);
 		}
 	}
+
+	// 僵尸种植控件初始化
+	m_zombie_x.InsertString(0, L"第一行");
+	m_zombie_x.InsertString(1, L"第二行");
+	m_zombie_x.InsertString(2, L"第三行");
+	m_zombie_x.InsertString(3, L"第四行");
+	m_zombie_x.InsertString(4, L"第五行");
+
+	m_zombie_y.InsertString(0, L"第一列");
+	m_zombie_y.InsertString(1, L"第二列");
+	m_zombie_y.InsertString(2, L"第三列");
+	m_zombie_y.InsertString(3, L"第四列");
+	m_zombie_y.InsertString(4, L"第五列");
+	m_zombie_y.InsertString(5, L"第六列");
+	m_zombie_y.InsertString(6, L"第七列");
+	m_zombie_y.InsertString(7, L"第八列");
+	m_zombie_y.InsertString(8, L"第九列");
+
+	m_zombie_id.InsertString(0, L"普通僵尸");
+	m_zombie_id.InsertString(1, L"旗帜僵尸");
+	m_zombie_id.InsertString(2, L"路障僵尸");
+	m_zombie_id.InsertString(3, L"撑杆僵尸");
+	m_zombie_id.InsertString(4, L"铁桶僵尸");
+	m_zombie_id.InsertString(5, L"读报僵尸");
+	m_zombie_id.InsertString(6, L"铁网门僵尸");
+	m_zombie_id.InsertString(7, L"橄榄球僵尸");
+	m_zombie_id.InsertString(8, L"舞者僵尸");
+	m_zombie_id.InsertString(9, L"伴舞僵尸");
+	m_zombie_id.InsertString(10, L"救生圈僵尸");
+	m_zombie_id.InsertString(11, L"潜水僵尸");
+	m_zombie_id.InsertString(12, L"雪橇车僵尸");
+	m_zombie_id.InsertString(13, L"雪橇车僵尸小队");
+	m_zombie_id.InsertString(14, L"海豚僵尸");
+	m_zombie_id.InsertString(15, L"小丑僵尸");
+	m_zombie_id.InsertString(16, L"气球僵尸");
+	m_zombie_id.InsertString(17, L"旷工僵尸");
+	m_zombie_id.InsertString(18, L"蹦蹦僵尸");
+	m_zombie_id.InsertString(19, L"未知僵尸");
+	m_zombie_id.InsertString(20, L"飞贼僵尸");
+	m_zombie_id.InsertString(21, L"梯子僵尸");
+	m_zombie_id.InsertString(22, L"投石车僵尸");
+	m_zombie_id.InsertString(23, L"巨人僵尸");
+	m_zombie_id.InsertString(24, L"小鬼僵尸");
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -237,7 +342,7 @@ void CpzhelperDlg::OnBnClickedSunUpdate()
 			CString numeric;
 			m_sun_number.GetWindowTextW(numeric);
 			int number = _ttoi(numeric);
-			if (number < 0 || number > 999999) 
+			if (number < 0 || number > 999999)
 			{
 				MessageBox(L"数值范围：0~99999");
 			}
@@ -257,7 +362,7 @@ void CpzhelperDlg::OnBnClickedSunUpdate()
 void CpzhelperDlg::OnBnClickedsunlock()
 {
 	m_sun_locked = m_sun_lock.GetCheck();
-	if (m_sun_locked) 
+	if (m_sun_locked)
 	{
 		m_sun_number.EnableWindow(false);
 		m_ctr_sun_modify.EnableWindow(false);
@@ -399,6 +504,16 @@ void CpzhelperDlg::OnBnClickedButton1()
 
 void CpzhelperDlg::growplant(byte x, byte y, byte id)
 {
+	/* 种植CALL原型
+	004265BE  |.  8B4424 14     mov eax,dword ptr ss:[esp+0x14]          ;  Y轴
+	004265C2  |.  51            push ecx                                 ;  固定-1
+	004265C3  |.  52            push edx                                 ;  植物ID
+	004265C4  |.  53            push ebx                                 ;  X轴
+	004265C5  |.  57            push edi                                 ;  种植基址
+	004265C6  |.  E8 45C0FFFF   call PlantsVs.00422610                   ;  植物种植CALL
+	*/
+
+
 	DWORD moduleBase, fun_param;
 	// 读取种植基址
 	moduleBase = this->m_base_address;
@@ -476,4 +591,161 @@ void CpzhelperDlg::growplant(byte x, byte y, byte id)
 	}
 	delete[] ThreadFunc;
 	funData.clear();
+}
+
+
+void CpzhelperDlg::OnBnClickedCheck1()
+{
+	// 开启子弹射速
+	bool seed_on = m_fire_seed.GetCheck();
+	if (seed_on)
+	{
+		rapidFire(this, true);
+	}
+	else {
+		rapidFire(this, false);
+	}
+
+}
+
+
+void CpzhelperDlg::OnBnClickedButton2()
+{
+	// 修改金币数量
+	// TODO: 在此添加控件通知处理程序代码
+
+
+	if (this->m_status_int)
+	{
+		CString numeric;
+		m_gold_number.GetWindowTextW(numeric);
+		int number = _ttoi(numeric);
+		if (number < 0 || number > 999999)
+		{
+			MessageBox(L"数值范围：0~99999");
+		}
+		else {
+			goldUpdate(this, number);
+		}
+
+	}
+	else {
+		MessageBox(L"游戏未运行！");
+	}
+}
+
+
+void CpzhelperDlg::OnBnClickedCheck2()
+{
+	// TODO: 开启超级投手
+	bool seed_on = m_super_speed.GetCheck();
+	if (seed_on)
+	{
+		superFire(this, true);
+	}
+	else {
+		superFire(this, false);
+	}
+}
+
+
+void CpzhelperDlg::OnBnClickedCheck3()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	bool auto_on = m_auto_gather_sun.GetCheck();
+	if (auto_on)
+	{
+		autoGatherSun(this, true);
+	}
+	else {
+		autoGatherSun(this, false);
+	}
+}
+
+// 种植僵尸
+void CpzhelperDlg::growpZombie(byte x, byte y, byte id)
+{
+	/* 种植僵尸原型
+	00444B2E | 8B4C24 58                | mov ecx,dword ptr ss:[esp+58]           | X轴
+	00444B32 | 50                       | push eax                                | 僵尸ID
+	00444B33 | 8B4424 60                | mov eax,dword ptr ss:[esp+60]           | Y轴
+	00444B37 | 55                       | push ebp                                | 种植基址
+	00444B38 | E8 23FDFFFF              | call plantsvszombies.444860             | 僵尸CALL
+	*/
+
+	std::vector<byte> asmData = { 0x60 }; // pushad
+	asmData = asmData + makeByteArray({ 0x8B, 0x05, 0xF8, 0x94, 0x77, 0x0 }); // mov eax,[7794F8]
+	asmData = asmData + makeByteArray({ 0x8B, 0x80, 0x68, 0x08, 0x0, 0x0 }); // mov eax,[eax+00000868]
+	asmData = asmData + makeByteArray({ 0x8B, 0x80, 0x78, 0x01, 0x0, 0x0 }); // mov eax, [eax + 00000178]
+	asmData = asmData + makeByteArray({ 0x8B, 0xE8 }); // mov ebp,eax
+	asmData = asmData + makeByteArray({ 0xB9, y, 0x0, 0x0, 0x0 }); // mov ecx,00000000
+	asmData = asmData + makeByteArray({ 0x6A, id }); // push 0A
+	asmData = asmData + makeByteArray({ 0xB8, x, 0x0, 0x0, 0x0 }); // mov eax,00000000
+	asmData = asmData + makeByteArray({ 0x55 }); // push ebp
+	asmData = asmData + makeByteArray({ 0xBB, 0x60, 0x48, 0x44, 0x00 }); // mov ebx,444860
+	asmData = asmData + makeByteArray({ 0xFF,0xD3 }); // call ebx
+	asmData = asmData + makeByteArray({ 0x61 }); // popad
+	asmData = asmData + makeByteArray({ 0xC3 }); // ret
+
+	// 汇编字节数量
+	size_t funSize = (size_t)asmData.size();
+
+	// 创建字节数组，并将机器码转移到字节数组中
+	byte* ThreadFunc = new byte[funSize];
+	for (size_t i = 0; i < funSize; i++)
+	{
+		ThreadFunc[i] = asmData[i];
+	}
+
+	// 远程申请内存空间
+	void* funAddr = VirtualAllocEx(this->m_game_handle, NULL, funSize, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+
+	if (funAddr != NULL)
+	{
+		// 远程写入机器码
+		if (WriteProcessMemory(this->m_game_handle, funAddr, ThreadFunc, funSize, NULL) == 0) {
+			MessageBox(L"写入内存失败！");
+			return;
+		}
+
+		// 创建远程线程
+		HANDLE thread_handle = CreateRemoteThread(this->m_game_handle, NULL, 0, (LPTHREAD_START_ROUTINE)funAddr, NULL, 0, NULL);
+		Sleep(500);
+		if (thread_handle == NULL)
+		{
+			MessageBox(L"创建线程失败！");
+			return;
+		}
+
+		VirtualFreeEx(this->m_game_handle, funAddr, 0, MEM_RELEASE);
+	}
+	delete[] ThreadFunc;
+	asmData.clear();
+}
+
+
+void CpzhelperDlg::OnBnClickedButton4()
+{
+	// 僵尸种植
+	int x, y, code;
+	x = m_zombie_x.GetCurSel();
+	y = m_zombie_y.GetCurSel();
+	code = m_zombie_id.GetCurSel();
+
+	if (x < 0 || x > 4) {
+		MessageBox(L"无效的行数！");
+		return;
+	}
+
+	if (y < 0 || y > 8) {
+		MessageBox(L"无效的列数！");
+		return;
+	}
+
+	if (code < 0 || code > 24) {
+		MessageBox(L"无效的僵尸ID！");
+		return;
+	}
+
+	growpZombie(x, y, code);
 }
