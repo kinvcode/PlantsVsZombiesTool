@@ -89,6 +89,9 @@ void CpzhelperDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO57, m_zombie_x);
 	DDX_Control(pDX, IDC_COMBO58, m_zombie_y);
 	DDX_Control(pDX, IDC_COMBO59, m_zombie_id);
+	DDX_Control(pDX, IDC_CHECK4, m_skill_zombies);
+	DDX_Control(pDX, IDC_CHECK5, m_back_run);
+	DDX_Control(pDX, IDC_CHECK7, m_bullet_change);
 }
 
 // 消息映射
@@ -104,6 +107,9 @@ BEGIN_MESSAGE_MAP(CpzhelperDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK2, &CpzhelperDlg::OnBnClickedCheck2)
 	ON_BN_CLICKED(IDC_CHECK3, &CpzhelperDlg::OnBnClickedCheck3)
 	ON_BN_CLICKED(IDC_BUTTON4, &CpzhelperDlg::OnBnClickedButton4)
+	ON_BN_CLICKED(IDC_CHECK4, &CpzhelperDlg::OnBnClickedCheck4)
+	ON_BN_CLICKED(IDC_CHECK5, &CpzhelperDlg::OnBnClickedCheck5)
+	ON_BN_CLICKED(IDC_CHECK7, &CpzhelperDlg::OnBnClickedCheck7)
 END_MESSAGE_MAP()
 
 
@@ -651,7 +657,7 @@ void CpzhelperDlg::OnBnClickedCheck2()
 
 void CpzhelperDlg::OnBnClickedCheck3()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	// 自动收集阳光
 	bool auto_on = m_auto_gather_sun.GetCheck();
 	if (auto_on)
 	{
@@ -748,4 +754,44 @@ void CpzhelperDlg::OnBnClickedButton4()
 	}
 
 	growpZombie(x, y, code);
+}
+
+
+void CpzhelperDlg::OnBnClickedCheck4()
+{
+	// 僵尸秒杀
+	bool skill_on = m_skill_zombies.GetCheck();
+	if (skill_on)
+	{
+		skillZombies(this, true);
+	}
+	else {
+		skillZombies(this, false);
+	}
+}
+
+
+void CpzhelperDlg::OnBnClickedCheck5()
+{
+	// 后台运行
+	bool back_on = m_back_run.GetCheck();
+	if (back_on) {
+		backgroundRunning(this, true);
+	}
+	else {
+		backgroundRunning(this, false);
+	}
+}
+
+
+void CpzhelperDlg::OnBnClickedCheck7()
+{
+	// 子弹修改
+	bool bullet_on = m_bullet_change.GetCheck();
+	if (bullet_on) {
+		changebullet(this, true, 0xb);
+	}
+	else {
+		changebullet(this, false, 0xb);
+	}
 }

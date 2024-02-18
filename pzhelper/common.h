@@ -203,22 +203,23 @@ DWORD WINAPI FastScan(LPVOID lpParameter)
 	return 0;
 }
 
-void rapidFire(CpzhelperDlg* object,bool on)
+void rapidFire(CpzhelperDlg* object, bool on)
 {
+	// 使用了空白地址
 	int call_addr = 0x709590;
 	int origin_addr = 0x4838BA;
 	if (on) {
 		// 修改倍速
-		byte code[8] = {0x83,0x43,0x58,0xFC,0x8B,0x43,0x58,0xC3};
+		byte code[8] = { 0x83,0x43,0x58,0xFC,0x8B,0x43,0x58,0xC3 };
 		WriteProcessMemory(object->m_game_handle, (LPVOID)(call_addr), &code, 8, NULL);
-	
+
 		// 跳转到修改倍速
-		byte jmp_code[6] = {0xE8,0xD1,0x5C,0x28,0x00,0x90};
+		byte jmp_code[6] = { 0xE8,0xD1,0x5C,0x28,0x00,0x90 };
 		WriteProcessMemory(object->m_game_handle, (LPVOID)(origin_addr), &jmp_code, 6, NULL);
 	}
 	else {
 		// 还原倍速
-		byte code[6] = {0xFF,0x4B,0x58,0x8B,0x43,0x58};
+		byte code[6] = { 0xFF,0x4B,0x58,0x8B,0x43,0x58 };
 		WriteProcessMemory(object->m_game_handle, (LPVOID)(origin_addr), &code, 6, NULL);
 	}
 }
@@ -264,5 +265,55 @@ void autoGatherSun(CpzhelperDlg* object, bool on)
 	else {
 		byte gather = 0;
 		WriteProcessMemory(object->m_game_handle, (LPVOID)(addr), &gather, 1, NULL);
+	}
+}
+
+// 僵尸秒杀
+void skillZombies(CpzhelperDlg* object, bool on)
+{
+	int addr = 0x5608D5;
+	if (on) {
+		byte code[2] = { 0x90,0x90 };
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(addr), &code, 2, NULL);
+	}
+	else {
+		byte code[2] = { 0x75,0xC };
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(addr), &code, 2, NULL);
+	}
+}
+
+// 后台运行
+
+void backgroundRunning(CpzhelperDlg* object, bool on)
+{
+	int win_addr = 0x540C40;
+	int background_addr = 0x42BCCA;
+	if (on) {
+		byte code[3] = { 0xC3, 0x90,0x90 };
+		byte code2[2] = { 0xEB,0x37 };
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(win_addr), &code, 3, NULL);
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(background_addr), &code2, 2, NULL);
+	}
+	else {
+		byte code[3] = { 0x8B, 0x40,0x1C };
+		byte code2[2] = { 0x75,0x37 };
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(win_addr), &code, 3, NULL);
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(background_addr), &code2, 2, NULL);
+	}
+}
+
+void changebullet(CpzhelperDlg* object, bool on, byte code)
+{
+	int empty_addr = 0x830000;
+	int oringin_addr = 0x493604;
+	if (on) {
+		byte oringin_code[7] = { 0xE9,0xF7,0xC9,0x39,0x00,0x66,0x90 };
+		byte inject_code[19] = { 0xC7,0x45,0x5C ,code ,0x00 ,0x00 ,0x00 ,0x8B ,0x45 ,0x5C ,0x56 ,0x8D ,0x34 ,0x40 ,0xE9 ,0xF8 ,0x35 ,0xC6 ,0xFF };
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(oringin_addr), &oringin_code, 7, NULL);
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(empty_addr), &inject_code, 19, NULL);
+	}
+	else {
+		byte oringin_code[7] = { 0x8B,0x45,0x5C,0x56,0x8D,0x34,0x40 };
+		WriteProcessMemory(object->m_game_handle, (LPVOID)(oringin_addr), &oringin_code, 7, NULL);
 	}
 }

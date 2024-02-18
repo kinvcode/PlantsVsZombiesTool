@@ -78,6 +78,9 @@
 #define IDC_BUTTON4                     1109
 #define IDC_COMBO58                     1110
 #define IDC_COMBO59                     1111
+#define IDC_CHECK4                      1112
+#define IDC_CHECK5                      1113
+#define IDC_CHECK7                      1117
 
 // Next default values for new objects
 // 
@@ -85,7 +88,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        137
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1110
+#define _APS_NEXT_CONTROL_VALUE         1118
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

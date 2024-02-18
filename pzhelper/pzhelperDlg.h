@@ -106,4 +106,10 @@ public:
 	CComboBox m_zombie_x;
 	CComboBox m_zombie_y;
 	CComboBox m_zombie_id;
+	afx_msg void OnBnClickedCheck4();
+	CButton m_skill_zombies;
+	afx_msg void OnBnClickedCheck5();
+	CButton m_back_run;
+	CButton m_bullet_change;
+	afx_msg void OnBnClickedCheck7();
 };
